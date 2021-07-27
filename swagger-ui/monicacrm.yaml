@@ -62,7 +62,7 @@ paths:
                     /api\\/activitytypecategories\",\"per_page\":\"1\",\"to\":1,\"\
                     total\":4}}"
     post:
-      description: Create activity type category
+      description: Auto generated using Swagger Inspector
       requestBody:
         content:
           application/json:
