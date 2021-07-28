@@ -1,4 +1,3 @@
-# XXX: created_at, updated_at and happened_at need to be defined as date fields of specific format
 # XXX: can url types be defined and enforced?
 #
 # Looks like data types can be defined: https://swagger.io/docs/specification/data-models/data-types/
@@ -274,7 +273,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+              $ref: '#/components/schemas/activityTypeCategories_object'
             examples:
               Request Body:
                 $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
@@ -338,7 +337,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+              $ref: '#/components/schemas/activityTypeCategories_object'
             examples:
               Request Body:
                 $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
@@ -426,36 +425,37 @@ components:
         id:
           minimum: 1
           type: integer
+          readOnly: true
 
     # 2021-07-21T17:32:28Z
     dateTime:
       type: string
       format: date-time
+      readOnly: true
 
 #    # 2021-07-21
 #    date:
 #      type: string
 #      format: date
 
-    # Request body for POST and PUT
-    request_body_ActivityTypeCategories:
-      type: object
-      properties:
-        name:
-          type: string
+#    request_body_ActivityTypeCategories:
+#      type: object
+#      properties:
+#        name:
+#          type: string
+#      required:
+#        - name
 
-    # Response data for both GETs, POST and PUT
-    response_data_ActivityTypeCategories:
+    activityTypeCategories_object:
       type: object
       properties:
         id:
           minimum: 1
           type: integer
-
-        # XXX: Is this always going to be 'activityTypeCategory'?
+          readOnly: true
         object:
           type: string
-
+          readOnly: true
         name:
           type: string
         account:
@@ -464,31 +464,26 @@ components:
           $ref: '#/components/schemas/dateTime'
         created_at:
           $ref: '#/components/schemas/dateTime'
+      required:
+        - name
 
-    # Response body for plain get.
     response_body_ActivityTypeCategories_array:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+            $ref: '#/components/schemas/activityTypeCategories_object'
         meta:
           $ref: '#/components/schemas/meta'
         links:
           $ref: '#/components/schemas/links'
 
-    # Response body for post, get|put{id}
     response_body_ActivityTypeCategories:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/response_data_ActivityTypeCategories'
-
-    #------------------------------------------------------------------------
-    # DELETE
-    # All resources have a delete that returns this format.
-    # XXX: Verify this!
+          $ref: '#/components/schemas/activityTypeCategories_object'
 
     response_body_delete:
       type: object
@@ -562,11 +557,6 @@ components:
         - id: 3
           object: activityTypeCategory
           name: Food
-          account:
-            id: 1
-        - id: 4
-          object: activityTypeCategory
-          name: Cultural activities
           account:
             id: 1
         links:
