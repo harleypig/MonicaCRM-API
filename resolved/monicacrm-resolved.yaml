@@ -1,0 +1,341 @@
+openapi: 3.0.0
+info:
+  title: Monica CRM API
+  description: "Monica helps you organize the social interactions with your loved\
+    \ ones.\n\nThis document describes how to use Monica's API. This document is heavily\
+    \ inspired by\n[GitHub's](https://developer.github.com/v3) and [Stripe's](https://stripe.com/docs/api)\
+    \ API. Please use the API in\na nice way and don't be a jerk."
+  termsOfService: https://www.monicahq.com/terms
+  license:
+    name: GNU Affero General Public License
+    url: https://www.gnu.org/licenses/agpl-3.0.txt
+  version: "0.1"
+servers:
+- url: /api
+  description: Point to the api point for the server being accessed.
+- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
+  description: SwaggerHub API Auto Mocking
+security:
+- bearerAuth: []
+tags:
+- name: Activity Type Categories
+  description: "When adding an activity done with a contact, you can associate it\
+    \ with a\ntype of activity. This is useful to categorize your activities done\
+    \ with your\ncontacts.\n\nAn activity type belongs to an activity type categories."
+  externalDocs:
+    description: Documentation for Activity type categories
+    url: https://www.monicahq.com/api/activitytypecategories
+paths:
+  /activitytypecategories:
+    get:
+      tags:
+      - Activity Type Categories
+      description: Get existing categories.
+      parameters:
+      - name: page
+        in: query
+        description: "The page number being requested, defaults to 1"
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          default: 1
+        example: 1
+      - name: limit
+        in: query
+        description: "The number of entries per page, defaults to 10, maximum is 100"
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 10
+        example: 50
+      responses:
+        "200":
+          description: Ok
+          headers:
+            X-RateLimit-Limit:
+              description: Number of requests allowed per hour
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+            X-RateLimit-Remaining:
+              description: Number of requests remaining
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories_array'
+              examples:
+                Response Body:
+                  $ref: '#/components/examples/response_body_ActivityTypeCategories_array_examples'
+    post:
+      tags:
+      - Activity Type Categories
+      description: Create an activity type category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+            examples:
+              Request Body:
+                $ref: '#/components/examples/POST_ActivityTypeCategories_body_examples'
+      responses:
+        "200":
+          description: Ok
+          headers:
+            X-RateLimit-Limit:
+              description: Number of requests allowed per hour
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+            X-RateLimit-Remaining:
+              description: Number of requests remaining
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
+              examples: {}
+  /activitytypecategories/{ActivityTypeCategoryID}:
+    get:
+      tags:
+      - Activity Type Categories
+      description: Get activity type specified by ActivityTypeCategoryID
+      parameters:
+      - name: ActivityTypeCategoryID
+        in: path
+        description: ActivityTypeCategory ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+        example: 1
+      responses:
+        "200":
+          description: Response when request for ActivityTypeCategory is successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories'
+              examples: {}
+    put:
+      tags:
+      - Activity Type Categories
+      description: Modify an activity type category specified by ActivityTypeCategoryID
+      parameters:
+      - name: ActivityTypeCategoryID
+        in: path
+        description: ActivityTypeCategory ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+        example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+            examples: {}
+      responses:
+        "200":
+          description: Response Body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
+              examples: {}
+    delete:
+      tags:
+      - Activity Type Categories
+      description: Delete an activity type category specified by ActivityTypeCategoryID
+      parameters:
+      - name: ActivityTypeCategoryID
+        in: path
+        description: ActivityTypeCategory ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+        example: 1
+      responses:
+        "200":
+          description: Response Body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_body_delete'
+              examples: {}
+components:
+  schemas:
+    idObject:
+      type: object
+      properties:
+        id:
+          minimum: 1
+          type: integer
+    dateTime:
+      type: string
+      format: date-time
+    date:
+      type: string
+      format: date
+    request_body_ActivityTypeCategories:
+      type: object
+      properties:
+        name:
+          type: string
+    response_data_ActivityTypeCategories:
+      type: object
+      properties:
+        id:
+          minimum: 1
+          type: integer
+        object:
+          type: string
+        name:
+          type: string
+        account:
+          $ref: '#/components/schemas/idObject'
+        updated_at:
+          $ref: '#/components/schemas/dateTime'
+        created_at:
+          $ref: '#/components/schemas/dateTime'
+    response_body_ActivityTypeCategories_array:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+        meta:
+          $ref: '#/components/schemas/meta'
+        links:
+          $ref: '#/components/schemas/links'
+    response_body_ActivityTypeCategories:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+    response_body_delete:
+      type: object
+      properties:
+        deleted:
+          type: boolean
+        id:
+          minimum: 1
+          type: integer
+    links:
+      type: object
+      properties:
+        next:
+          type: string
+        last:
+          type: string
+        prev: {}
+        first:
+          type: string
+    meta:
+      type: object
+      properties:
+        path:
+          type: string
+        per_page:
+          type: integer
+        total:
+          type: integer
+        last_page:
+          type: integer
+        from:
+          type: integer
+        to:
+          type: integer
+        current_page:
+          type: integer
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/meta_links'
+    meta_links:
+      type: object
+      properties:
+        active:
+          type: boolean
+        label:
+          type: string
+        url: {}
+  parameters:
+    pageParameter:
+      name: page
+      in: query
+      description: "The page number being requested, defaults to 1"
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 1
+        type: integer
+        default: 1
+      example: 1
+    limitParameter:
+      name: limit
+      in: query
+      description: "The number of entries per page, defaults to 10, maximum is 100"
+      required: false
+      style: form
+      explode: true
+      schema:
+        maximum: 100
+        minimum: 1
+        type: integer
+        default: 10
+      example: 50
+    activityTypeCategoryIDParameter:
+      name: ActivityTypeCategoryID
+      in: path
+      description: ActivityTypeCategory ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        minimum: 1
+        type: integer
+      example: 1
+  examples:
+    response_body_ActivityTypeCategories_array_examples: {}
+    response_body_ActivityTypeCategories_examples: {}
+    response_body_delete_examples: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
