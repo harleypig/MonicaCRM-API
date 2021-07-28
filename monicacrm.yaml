@@ -15,20 +15,23 @@ openapi: 3.0.1
 
 info:
   title: Monica CRM API
-  version: "0.1"
-  termsOfService: https://www.monicahq.com/terms
   description: |-
     Monica helps you organize the social interactions with your loved ones.
 
     This document describes how to use Monica's API. This document is heavily inspired by
     [GitHub's](https://developer.github.com/v3) and [Stripe's](https://stripe.com/docs/api) API. Please use the API in
     a nice way and don't be a jerk.
+  termsOfService: https://www.monicahq.com/terms
   license:
     name: GNU Affero General Public License
-    urll: 'https://www.gnu.org/licenses/agpl-3.0.txt'
+    url: https://www.gnu.org/licenses/agpl-3.0.txt
+  version: "0.1"
 
 servers:
-  - url: /api
+- url: /api
+  description: Point to the api point for the server being accessed.
+- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
+  description: SwaggerHub API Auto Mocking
 
 security:
   - bearerAuth: []
@@ -229,40 +232,43 @@ paths:
     #------------------------------------------------------------------------
     get:
       tags:
-        - Activity Type Categories
+      - Activity Type Categories
       description: Get existing categories.
       parameters:
-        - $ref: '#/components/parameters/pageParameter'
-        - $ref: '#/components/parameters/limitParameter'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         "200":
           description: Ok
           headers:
             X-RateLimit-Limit:
-              in: header
-              required: true
               description: Number of requests allowed per hour
-              schema:
-                type: integer
-                minimum: 0
-            X-RateLimit-Remaining:
-              in: header
               required: true
-              description: Number of requests remaining
+              style: simple
+              explode: false
               schema:
-                type: integer
                 minimum: 0
+                type: integer
+            X-RateLimit-Remaining:
+              description: Number of requests remaining
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_body_ActivityTypeCategories_array'
               examples:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories_array_examples'
+                Response Body:
+                  $ref: '#/components/examples/response_body_ActivityTypeCategories_array_examples'
 
     #------------------------------------------------------------------------
     post:
       tags:
-        - Activity Type Categories
+      - Activity Type Categories
       description: Create an activity type category
       requestBody:
         content:
@@ -270,31 +276,35 @@ paths:
             schema:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
-              $ref: '#/components/examples/POST_ActivityTypeCategories_body_examples'
+              Request Body:
+                $ref: '#/components/examples/POST_ActivityTypeCategories_body_examples'
       responses:
         "200":
           description: Ok
           headers:
             X-RateLimit-Limit:
-              in: header
-              required: true
               description: Number of requests allowed per hour
-              schema:
-                type: integer
-                minimum: 0
-            X-RateLimit-Remaining:
-              in: header
               required: true
-              description: Number of requests remaining
+              style: simple
+              explode: false
               schema:
-                type: integer
                 minimum: 0
+                type: integer
+            X-RateLimit-Remaining:
+              description: Number of requests remaining
+              required: true
+              style: simple
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
               examples:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+                Response Body:
+                  $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
 
   ###########################################################################
   /activitytypecategories/{ActivityTypeCategoryID}:
@@ -302,7 +312,7 @@ paths:
     #------------------------------------------------------------------------
     get:
       tags:
-        - Activity Type Categories
+      - Activity Type Categories
       description: Get activity type specified by ActivityTypeCategoryID
       parameters:
         - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
@@ -314,12 +324,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/response_body_ActivityTypeCategories'
               examples:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+                Response  Body:
+                  $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
 
     #------------------------------------------------------------------------
     put:
       tags:
-        - Activity Type Categories
+      - Activity Type Categories
       description: Modify an activity type category specified by ActivityTypeCategoryID
       parameters:
         - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
@@ -329,7 +340,8 @@ paths:
             schema:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
-              $ref: '#/components/examples/PUT_ActivityTypeCategoriesID_examples'
+              Request Body:
+                $ref: '#/components/examples/PUT_ActivityTypeCategoriesID_examples'
       responses:
         "200":
           description: Response Body
@@ -338,12 +350,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
               examples:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+                Response Body:
+                  $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
 
     #------------------------------------------------------------------------
     delete:
       tags:
-        - Activity Type Categories
+      - Activity Type Categories
       description: Delete an activity type category specified by ActivityTypeCategoryID
       parameters:
         - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
@@ -355,7 +368,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/response_body_delete'
               examples:
-                $ref: '#/components/examples/response_body_delete_examples'
+                Response Body:
+                  $ref: '#/components/examples/response_body_delete_examples'
 
 #############################################################################
 components:
@@ -365,7 +379,7 @@ components:
 
   #--------------------------------------------------------------------------
   parameters:
-    pageParameter:
+    page:
       name: page
       in: query
       description: "The page number being requested, defaults to 1"
@@ -378,7 +392,7 @@ components:
         default: 1
       example: 1
 
-    limitParameter:
+    limit:
       name: limit
       in: query
       description: "The number of entries per page, defaults to 10, maximum is 100"
@@ -410,8 +424,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
           minimum: 1
+          type: integer
 
     # 2021-07-21T17:32:28Z
     dateTime:
@@ -435,8 +449,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
           minimum: 1
+          type: integer
 
         # XXX: Is this always going to be 'activityTypeCategory'?
         object:
@@ -482,8 +496,8 @@ components:
         deleted:
           type: boolean
         id:
-          type: integer
           minimum: 1
+          type: integer
 
   #--------------------------------------------------------------------------
   # Definitions for responses that have pagination.
@@ -520,13 +534,16 @@ components:
         links:
           type: array
           items:
-            type: object
-            properties:
-              active:
-                type: boolean
-              label:
-                type: string
-              url: {}
+            $ref: '#/components/schemas/meta_links'
+
+    meta_links:
+      type: object
+      properties:
+        active:
+          type: boolean
+        label:
+          type: string
+        url: {}
 
   #--------------------------------------------------------------------------
   examples:
@@ -535,7 +552,6 @@ components:
     # GET /activitytypecategories/
 
     response_body_ActivityTypeCategories_array_examples:
-      'page and limit set to 1':
         value: "put example here"
 
     #------------------------------------------------------------------------
@@ -544,7 +560,6 @@ components:
     # GET /activitytypecategories/{ActivityTypeCategoryID}
 
     response_body_ActivityTypeCategories_examples:
-      Response Body:
         value: "put example here"
 
 
@@ -554,7 +569,6 @@ components:
     # XXX: Verify this!
 
     response_body_delete_examples
-      Response Body:
         value: "put example here"
 
   #--------------------------------------------------------------------------
