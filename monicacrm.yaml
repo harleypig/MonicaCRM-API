@@ -30,8 +30,8 @@ info:
 servers:
 - url: /api
   description: Point to the api point for the server being accessed.
-#- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
-#  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
+  description: SwaggerHub API Auto Mocking
 
 security:
   - bearerAuth: []
@@ -277,7 +277,7 @@ paths:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
               Request Body:
-                $ref: '#/components/schemas/request_body_ActivityTypeCategories_examples'
+                $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
       responses:
         "200":
           description: Ok
@@ -301,7 +301,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories'
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories'
               examples:
                 Response Body:
                   $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
@@ -341,14 +341,14 @@ paths:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
               Request Body:
-                $ref: '#/components/schemas/request_body_ActivityTypeCategories_examples'
+                $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
       responses:
         "200":
           description: Response Body
           content:
             application/json:
               schema:
-                $ref: '#/components/examples/response_body_ActivityTypeCategories'
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories'
               examples:
                 Response Body:
                   $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
@@ -573,7 +573,7 @@ components:
 
     request_body_ActivityTypeCategories_examples:
       value: {"name":"For my friend Leslie Knope"}
-
+      
     response_body_ActivityTypeCategories_examples:
       value: -<
         {"data":{"id":9,"object":"activityTypeCategory","name":"For my friend Leslie Knope",
