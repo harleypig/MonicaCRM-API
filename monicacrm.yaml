@@ -30,11 +30,11 @@ info:
 servers:
 - url: /api
   description: Point to the api point for the server being accessed.
-- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
+- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM/0.1
   description: SwaggerHub API Auto Mocking
 
 security:
-  - bearerAuth: []
+- bearerAuth: []
 
 # The order defined here is how the various groups will be displayed in the swagger generated document.
 tags:
@@ -516,7 +516,6 @@ components:
     meta:
       type: object
       properties:
-        # path is a full url
         path:
           type: string
         per_page:
@@ -547,47 +546,61 @@ components:
 
   #--------------------------------------------------------------------------
   examples:
-
-    #------------------------------------------------------------------------
-    # GET /activitytypecategories/
-
     response_body_ActivityTypeCategories_array_examples:
-      value: -<
-        {"data":[{"id":1,"object":"activityTypeCategory","name":"Simple activities",
-        "account":{"id":1},"created_at":null,"updated_at":null},{"id":2,
-        "object":"activityTypeCategory","name":"Sport","account":{"id":1},
-        "created_at":null,"updated_at":null},{"id":3,"object":"activityTypeCategory",
-        "name":"Food","account":{"id":1},"created_at":null,"updated_at":null},
-        {"id":4,"object":"activityTypeCategory","name":"Cultural activities",
-        "account":{"id":1},"created_at":null,"updated_at":null}],
-        "links":{"first":"https://app.monicahq.com/api/activitytypecategories?page=1",
-        "last":"https://app.monicahq.com/api/activitytypecategories?page=1",
-        "prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,
-        "path":"https://app.monicahq.com/api/activitytypecategories","per_page":15,
-        "to":4,"total":4}}
-
-    #------------------------------------------------------------------------
-    # POST /activitytypecategories/
-    # PUT /activitytypecategories/{ActivityTypeCategoryID}
-    # GET /activitytypecategories/{ActivityTypeCategoryID}
+      value:
+        data:
+        - id: 1
+          object: activityTypeCategory
+          name: Simple activities
+          account:
+            id: 1
+        - id: 2
+          object: activityTypeCategory
+          name: Sport
+          account:
+            id: 1
+        - id: 3
+          object: activityTypeCategory
+          name: Food
+          account:
+            id: 1
+        - id: 4
+          object: activityTypeCategory
+          name: Cultural activities
+          account:
+            id: 1
+        links:
+          first: https://app.monicahq.com/api/activitytypecategories?page=1
+          last: https://app.monicahq.com/api/activitytypecategories?page=1
+        meta:
+          current_page: 1
+          from: 1
+          last_page: 1
+          path: https://app.monicahq.com/api/activitytypecategories
+          per_page: 15
+          to: 4
+          total: 4
 
     request_body_ActivityTypeCategories_examples:
-      value: {"name":"For my friend Leslie Knope"}
-      
-    response_body_ActivityTypeCategories_examples:
-      value: -<
-        {"data":{"id":9,"object":"activityTypeCategory","name":"For my friend Leslie Knope",
-        "account":{"id":1},"created_at":"2021-07-21T16:30:37Z","updated_at":"2021-07-21T16:30:37Z"}}
+      value:
+        name: For my friend Leslie Knope
 
-    #------------------------------------------------------------------------
-    # DELETE
-    # All resources have a delete that returns this format.
-    # XXX: Verify this!
+    response_body_ActivityTypeCategories_examples:
+      value:
+        data:
+          id: 9
+          object: activityTypeCategory
+          name: For my friend Leslie Knope
+          account:
+            id: 1
+          created_at: 2021-07-21T16:30:37Z
+          updated_at: 2021-07-21T16:30:37Z
 
     response_body_delete_examples:
-        value: {"deleted":true,"id":31}
+      value:
+        deleted: true
+        id: 31
 
-  #--------------------------------------------------------------------------
   securitySchemes:
     bearerAuth:
       type: http
