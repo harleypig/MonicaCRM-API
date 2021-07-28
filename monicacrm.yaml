@@ -30,8 +30,8 @@ info:
 servers:
 - url: /api
   description: Point to the api point for the server being accessed.
-- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
-  description: SwaggerHub API Auto Mocking
+#- url: https://virtserver.swaggerhub.com/harleypig/MonicaCRM-API/0.1
+#  description: SwaggerHub API Auto Mocking
 
 security:
   - bearerAuth: []
@@ -277,7 +277,7 @@ paths:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
               Request Body:
-                $ref: '#/components/examples/POST_ActivityTypeCategories_body_examples'
+                $ref: '#/components/schemas/request_body_ActivityTypeCategories_examples'
       responses:
         "200":
           description: Ok
@@ -301,7 +301,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
+                $ref: '#/components/examples/response_body_ActivityTypeCategories'
               examples:
                 Response Body:
                   $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
@@ -341,14 +341,14 @@ paths:
               $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
               Request Body:
-                $ref: '#/components/examples/PUT_ActivityTypeCategoriesID_examples'
+                $ref: '#/components/schemas/request_body_ActivityTypeCategories_examples'
       responses:
         "200":
           description: Response Body
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
+                $ref: '#/components/examples/response_body_ActivityTypeCategories'
               examples:
                 Response Body:
                   $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
@@ -432,10 +432,10 @@ components:
       type: string
       format: date-time
 
-    # 2021-07-21
-    date:
-      type: string
-      format: date
+#    # 2021-07-21
+#    date:
+#      type: string
+#      format: date
 
     # Request body for POST and PUT
     request_body_ActivityTypeCategories:
@@ -568,7 +568,7 @@ components:
     # All resources have a delete that returns this format.
     # XXX: Verify this!
 
-    response_body_delete_examples
+    response_body_delete_examples:
         value: "put example here"
 
   #--------------------------------------------------------------------------
