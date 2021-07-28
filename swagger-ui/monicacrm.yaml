@@ -1,231 +1,494 @@
+# XXX: created_at, updated_at and happened_at need to be defined as date fields of specific format
+# XXX: can url types be defined and enforced?
+#
+# Looks like data types can be defined: https://swagger.io/docs/specification/data-models/data-types/
+
+# XXX: If no authorization is provided, we get a 302 redirect. I'm not sure how to handle this in OpenAPI
+
+# NOTE: Swagger docs (https://swagger.io/docs/specification/describing-responses/) says "that, currently, OpenAPI
+# Specification does not permit to define common response headers for different response codes or different API
+# operations. You need to define the headers for each response individually."
+#
+# Copy-pasta sucks!
+
 openapi: 3.0.1
+
 info:
   title: Monica CRM API
-  description: API for Monica CRM
   version: "0.1"
+  termsOfService: https://www.monicahq.com/terms
+  description: |-
+    Monica helps you organize the social interactions with your loved ones.
+
+    This document describes how to use Monica's API. This document is heavily inspired by
+    [GitHub's](https://developer.github.com/v3) and [Stripe's](https://stripe.com/docs/api) API. Please use the API in
+    a nice way and don't be a jerk.
+  license:
+    name: GNU Affero General Public License
+    urll: 'https://www.gnu.org/licenses/agpl-3.0.txt'
+
 servers:
-- url: https://prm.harleypig.com/api
+  - url: /api
+
+security:
+  - bearerAuth: []
+
+# The order defined here is how the various groups will be displayed in the swagger generated document.
+tags:
+#  name: Activities
+#  description: |-
+#    The Activity object represents activities made with one or more contacts. Use it to keep track of what you've done.
+#    An activity can't be orphan - it needs to be linked to at least one contact.
+#  externalDocs:
+#    description: Documentation for Activities
+#    url: 'https://www.monicahq.com/api/activities'
+
+#  - name: Activity types
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Activity types
+#      url: 'https://www.monicahq.com/api/...'
+
+  - name: Activity Type Categories
+    description: |-
+      When adding an activity done with a contact, you can associate it with a
+      type of activity. This is useful to categorize your activities done with your
+      contacts.
+
+      An activity type belongs to an activity type categories.
+    externalDocs:
+      description:  Documentation for Activity type categories
+      url: 'https://www.monicahq.com/api/activitytypecategories'
+
+#  - name: Addresses
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Addresses
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Audit logs
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Audit logs
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Calls
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Calls
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Companies
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Companies
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Compliance
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Compliance
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Contacts
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Contacts
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Contact Fields
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Contact Fields
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Contact Field Types
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Contact Field Types
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Conversations
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Conversations
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Countries
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Countries
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Currencies
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Currencies
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Debts
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Debts
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Documents
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Documents
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Genders
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Genders
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Gifts
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Gifts
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Groups
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Groups
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Journal entries
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Journal entries
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Notes
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Notes
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Occupations
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Occupations
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Photos
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Photos
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Relationships
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Relationships
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Relationship Types
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Relationship Types
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Relationship Type Groups
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Relationship Type Groups
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Reminders
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Reminders
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Tags
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Tags
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: Tasks
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for Tasks
+#      url: 'https://www.monicahq.com/api/...'
+
+#  - name: User
+#    description: 'description goes here'
+#    externalDocs:
+#      description:  Documentation for User
+#      url: 'https://www.monicahq.com/api/...'
+
+#############################################################################
 paths:
   /activitytypecategories:
+
+    #------------------------------------------------------------------------
     get:
+      tags:
+        - Activity Type Categories
       description: Get existing categories.
       parameters:
-      - name: page
-        in: query
-        description: "The page number being requested, defaults to 1"
-        required: false
-        style: form
-        explode: true
-        schema:
-          minimum: 1
-          type: integer
-          default: 1
-        example: 1
-      - name: limit
-        in: query
-        description: "The number of entries per page, defaults to 10, maximum is 100"
-        required: false
-        style: form
-        explode: true
-        schema:
-          maximum: 100
-          minimum: 1
-          type: integer
-          default: 10
-        example: 50
+        - $ref: '#/components/parameters/pageParameter'
+        - $ref: '#/components/parameters/limitParameter'
       responses:
         "200":
-          description: Response Body
+          description: Ok
+          headers:
+            X-RateLimit-Limit:
+              in: header
+              required: true
+              description: Number of requests allowed per hour
+              schema:
+                type: integer
+                minimum: 0
+            X-RateLimit-Remaining:
+              in: header
+              required: true
+              description: Number of requests remaining
+              schema:
+                type: integer
+                minimum: 0
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories_array'
               examples:
-                page and limit set to 1:
-                  value: "{\"data\":[{\"id\":1,\"object\":\"activityTypeCategory\"\
-                    ,\"name\":\"Simple activities\",\"account\":{\"id\":1},\"created_at\"\
-                    :null,\"updated_at\":null}],\"links\":{\"first\":\"https:\\/\\\
-                    /prm.harleypig.com\\/api\\/activitytypecategories?page=1\",\"\
-                    last\":\"https:\\/\\/prm.harleypig.com\\/api\\/activitytypecategories?page=4\"\
-                    ,\"prev\":null,\"next\":\"https:\\/\\/prm.harleypig.com\\/api\\\
-                    /activitytypecategories?page=2\"},\"meta\":{\"current_page\":1,\"\
-                    from\":1,\"last_page\":4,\"links\":[{\"url\":null,\"label\":\"\
-                    \\u276e Previous\",\"active\":false},{\"url\":\"https:\\/\\/prm.harleypig.com\\\
-                    /api\\/activitytypecategories?page=1\",\"label\":\"1\",\"active\"\
-                    :true},{\"url\":\"https:\\/\\/prm.harleypig.com\\/api\\/activitytypecategories?page=2\"\
-                    ,\"label\":\"2\",\"active\":false},{\"url\":\"https:\\/\\/prm.harleypig.com\\\
-                    /api\\/activitytypecategories?page=3\",\"label\":\"3\",\"active\"\
-                    :false},{\"url\":\"https:\\/\\/prm.harleypig.com\\/api\\/activitytypecategories?page=4\"\
-                    ,\"label\":\"4\",\"active\":false},{\"url\":\"https:\\/\\/prm.harleypig.com\\\
-                    /api\\/activitytypecategories?page=2\",\"label\":\"Next \\u276f\"\
-                    ,\"active\":false}],\"path\":\"https:\\/\\/prm.harleypig.com\\\
-                    /api\\/activitytypecategories\",\"per_page\":\"1\",\"to\":1,\"\
-                    total\":4}}"
+                $ref: '#/components/examples/response_body_ActivityTypeCategories_array_examples'
+
+    #------------------------------------------------------------------------
     post:
+      tags:
+        - Activity Type Categories
       description: Create an activity type category
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/activitytypecategories_body'
+              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
-              Request Body:
-                value: "{ \"name\": \"my awesome category type\" }"
+              $ref: '#/components/examples/POST_ActivityTypeCategories_body_examples'
       responses:
         "200":
-          description: Response Body
+          description: Ok
+          headers:
+            X-RateLimit-Limit:
+              in: header
+              required: true
+              description: Number of requests allowed per hour
+              schema:
+                type: integer
+                minimum: 0
+            X-RateLimit-Remaining:
+              in: header
+              required: true
+              description: Number of requests remaining
+              schema:
+                type: integer
+                minimum: 0
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
               examples:
-                Response Body:
-                  value: "{\"data\":{\"id\":5,\"object\":\"activityTypeCategory\"\
-                    ,\"name\":\"my awesome category type\",\"account\":{\"id\":1},\"\
-                    created_at\":\"2021-07-26T16:03:43Z\",\"updated_at\":\"2021-07-26T16:03:43Z\"\
-                    }}"
+                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+
+  ###########################################################################
   /activitytypecategories/{ActivityTypeCategoryID}:
+
+    #------------------------------------------------------------------------
     get:
+      tags:
+        - Activity Type Categories
       description: Get activity type specified by ActivityTypeCategoryID
       parameters:
-      - name: ActivityTypeCategoryID
-        in: path
-        description: ActivityTypeCategory ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minimum: 1
-          type: integer
-        example: 1
+        - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
       responses:
         "200":
           description: Response when request for ActivityTypeCategory is successful.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_2'
+                $ref: '#/components/schemas/response_body_ActivityTypeCategories'
               examples:
-                Response Body:
-                  value: "{\"data\":{\"id\":1,\"object\":\"activityTypeCategory\"\
-                    ,\"name\":\"Simple activities\",\"account\":{\"id\":1},\"created_at\"\
-                    :null,\"updated_at\":null}}"
+                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+
+    #------------------------------------------------------------------------
     put:
+      tags:
+        - Activity Type Categories
       description: Modify an activity type category specified by ActivityTypeCategoryID
       parameters:
-      - name: ActivityTypeCategoryID
-        in: path
-        description: ActivityTypeCategory ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minimum: 1
-          type: integer
-        example: 1
+        - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/activitytypecategories_ActivityTypeCategoryID_body'
+              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
             examples:
-              Request Body:
-                value: "{ \"name\": \"My Awesome Category Type\" }"
+              $ref: '#/components/examples/PUT_ActivityTypeCategoriesID_examples'
       responses:
         "200":
           description: Response Body
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/OK_POST_PUT_ActivityTypeCategories'
               examples:
-                Response Body:
-                  value: "{\"data\":{\"id\":5,\"object\":\"activityTypeCategory\"\
-                    ,\"name\":\"My Awesome Category Type\", \"account\":{\"id\":1},\"\
-                    created_at\":\"2021-07-26T16:03:43Z\",\"updated_at\":\"2021-07-26T16:09:52Z\"\
-                    }}"
+                $ref: '#/components/examples/response_body_ActivityTypeCategories_examples'
+
+    #------------------------------------------------------------------------
     delete:
+      tags:
+        - Activity Type Categories
       description: Delete an activity type category specified by ActivityTypeCategoryID
       parameters:
-      - name: ActivityTypeCategoryID
-        in: path
-        description: ActivityTypeCategory ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minimum: 1
-          type: integer
-        example: 1
+        - $ref: '#/components/parameters/activityTypeCategoryIDParameter'
       responses:
         "200":
           description: Response Body
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_3'
+                $ref: '#/components/schemas/response_body_delete'
               examples:
-                Response Body:
-                  value: "{\"deleted\":true,\"id\":5}"
+                $ref: '#/components/examples/response_body_delete_examples'
+
+#############################################################################
 components:
+
+#  #--------------------------------------------------------------------------
+#  headers:
+
+  #--------------------------------------------------------------------------
+  parameters:
+    pageParameter:
+      name: page
+      in: query
+      description: "The page number being requested, defaults to 1"
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 1
+        type: integer
+        default: 1
+      example: 1
+
+    limitParameter:
+      name: limit
+      in: query
+      description: "The number of entries per page, defaults to 10, maximum is 100"
+      required: false
+      style: form
+      explode: true
+      schema:
+        maximum: 100
+        minimum: 1
+        type: integer
+        default: 10
+      example: 50
+
+    activityTypeCategoryIDParameter:
+      name: ActivityTypeCategoryID
+      in: path
+      description: ActivityTypeCategory ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        minimum: 1
+        type: integer
+      example: 1
+
+  #--------------------------------------------------------------------------
   schemas:
-    inline_response_200_1_data:
+    idObject:
       type: object
       properties:
-        updated_at:
-          type: string
-        name:
-          type: string
-        created_at:
-          type: string
         id:
           type: integer
-        account:
-          $ref: '#/components/schemas/inline_response_200_1_data_account'
+          minimum: 1
+
+    # 2021-07-21T17:32:28Z
+    dateTime:
+      type: string
+      format: date-time
+
+    # 2021-07-21
+    date:
+      type: string
+      format: date
+
+    # Request body for POST and PUT
+    request_body_ActivityTypeCategories:
+      type: object
+      properties:
+        name:
+          type: string
+
+    # Response data for both GETs, POST and PUT
+    response_data_ActivityTypeCategories:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+
+        # XXX: Is this always going to be 'activityTypeCategory'?
         object:
           type: string
-    inline_response_200_meta_links:
-      type: object
-      properties:
-        active:
-          type: boolean
-        label:
+
+        name:
           type: string
-        url: {}
-    inline_response_200_1:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/inline_response_200_1_data'
-    inline_response_200:
+        account:
+          $ref: '#/components/schemas/idObject'
+        updated_at:
+          $ref: '#/components/schemas/dateTime'
+        created_at:
+          $ref: '#/components/schemas/dateTime'
+
+    # Response body for plain get.
+    response_body_ActivityTypeCategories_array:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/inline_response_200_data'
+            $ref: '#/components/schemas/response_data_ActivityTypeCategories'
         meta:
-          $ref: '#/components/schemas/inline_response_200_meta'
+          $ref: '#/components/schemas/meta'
         links:
-          $ref: '#/components/schemas/inline_response_200_links'
-    inline_response_200_2:
+          $ref: '#/components/schemas/links'
+
+    # Response body for post, get|put{id}
+    response_body_ActivityTypeCategories:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/inline_response_200_data'
-    inline_response_200_3:
+          $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+
+    #------------------------------------------------------------------------
+    # DELETE
+    # All resources have a delete that returns this format.
+    # XXX: Verify this!
+
+    response_body_delete:
       type: object
       properties:
         deleted:
           type: boolean
         id:
           type: integer
-    activitytypecategories_body:
-      type: object
-      properties:
-        name:
-          type: string
-    inline_response_200_links:
+          minimum: 1
+
+  #--------------------------------------------------------------------------
+  # Definitions for responses that have pagination.
+
+    links:
       type: object
       properties:
         next:
@@ -235,67 +498,68 @@ components:
         prev: {}
         first:
           type: string
-    inline_response_200_1_data_account:
+
+    meta:
       type: object
       properties:
-        id:
-          type: integer
-    inline_response_200_data:
-      type: object
-      properties:
-        updated_at: {}
-        name:
-          type: string
-        created_at: {}
-        id:
-          type: integer
-        account:
-          $ref: '#/components/schemas/inline_response_200_1_data_account'
-        object:
-          type: string
-    inline_response_200_meta:
-      type: object
-      properties:
+        # path is a full url
         path:
           type: string
         per_page:
-          type: string
+          type: integer
         total:
           type: integer
         last_page:
           type: integer
         from:
           type: integer
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/inline_response_200_meta_links'
         to:
           type: integer
         current_page:
           type: integer
-    activitytypecategories_ActivityTypeCategoryID_body:
-      type: object
-      properties:
-        summary:
-          type: string
-        activity_type_id:
-          type: integer
-        name:
-          type: string
-        happened_at:
-          type: string
-        description:
-          type: string
-        contacts:
+        links:
           type: array
           items:
-            type: integer
+            type: object
+            properties:
+              active:
+                type: boolean
+              label:
+                type: string
+              url: {}
+
+  #--------------------------------------------------------------------------
+  examples:
+
+    #------------------------------------------------------------------------
+    # GET /activitytypecategories/
+
+    response_body_ActivityTypeCategories_array_examples:
+      'page and limit set to 1':
+        value: "put example here"
+
+    #------------------------------------------------------------------------
+    # POST /activitytypecategories/
+    # PUT /activitytypecategories/{ActivityTypeCategoryID}
+    # GET /activitytypecategories/{ActivityTypeCategoryID}
+
+    response_body_ActivityTypeCategories_examples:
+      Response Body:
+        value: "put example here"
+
+
+    #------------------------------------------------------------------------
+    # DELETE
+    # All resources have a delete that returns this format.
+    # XXX: Verify this!
+
+    response_body_delete_examples
+      Response Body:
+        value: "put example here"
+
+  #--------------------------------------------------------------------------
   securitySchemes:
-    oauth2:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://yourauthurl.com
-          scopes:
-            scope_name: Enter your scopes here
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # XXX: FIXME
