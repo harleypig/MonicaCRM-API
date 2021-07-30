@@ -18,6 +18,10 @@ servers:
 security:
 - bearerAuth: []
 tags:
+- name: Activity types
+  externalDocs:
+    description: Documentation for Activity types
+    url: https://www.monicahq.com/api/activitytypes
 - name: Activity Type Categories
   description: "When adding an activity done with a contact, you can associate it\
     \ with a\ntype of activity. This is useful to categorize your activities done\
@@ -90,7 +94,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+              $ref: '#/components/schemas/activityTypeCategories_object'
             examples:
               Request Body:
                 $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
@@ -166,7 +170,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request_body_ActivityTypeCategories'
+              $ref: '#/components/schemas/activityTypeCategories_object'
             examples:
               Request Body:
                 $ref: '#/components/examples/request_body_ActivityTypeCategories_examples'
@@ -207,43 +211,63 @@ paths:
                   $ref: '#/components/examples/response_body_delete_examples'
 components:
   schemas:
-    idObject:
-      type: object
-      properties:
-        id:
-          minimum: 1
-          type: integer
-    dateTime:
+    dateTime_object:
       type: string
       format: date-time
-    request_body_ActivityTypeCategories:
-      type: object
-      properties:
-        name:
-          type: string
-    response_data_ActivityTypeCategories:
+    id_object:
+      minimum: 1
+      type: integer
+      readOnly: true
+    object_object:
+      type: string
+      readOnly: true
+    account_object:
+      required:
+      - id
       type: object
       properties:
         id:
           minimum: 1
           type: integer
+          readOnly: true
+    baseActivity_schema:
+      type: object
+      properties:
+        id:
+          allOf:
+          - $ref: '#/components/schemas/id_object'
+          - readOnly: true
         object:
           type: string
-        name:
-          type: string
+          readOnly: true
         account:
-          $ref: '#/components/schemas/idObject'
-        updated_at:
-          $ref: '#/components/schemas/dateTime'
+          allOf:
+          - $ref: '#/components/schemas/account_object'
+          - readOnly: true
         created_at:
-          $ref: '#/components/schemas/dateTime'
+          allOf:
+          - $ref: '#/components/schemas/dateTime_object'
+          - readOnly: true
+        updated_at:
+          allOf:
+          - $ref: '#/components/schemas/dateTime_object'
+          - readOnly: true
+    activityTypeCategories_object:
+      required:
+      - name
+      allOf:
+      - $ref: '#/components/schemas/baseActivity_schema'
+      - type: object
+        properties:
+          name:
+            type: string
     response_body_ActivityTypeCategories_array:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+            $ref: '#/components/schemas/activityTypeCategories_object'
         meta:
           $ref: '#/components/schemas/meta'
         links:
@@ -252,7 +276,7 @@ components:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/response_data_ActivityTypeCategories'
+          $ref: '#/components/schemas/activityTypeCategories_object'
     response_body_delete:
       type: object
       properties:
@@ -356,11 +380,6 @@ components:
           name: Food
           account:
             id: 1
-        - id: 4
-          object: activityTypeCategory
-          name: Cultural activities
-          account:
-            id: 1
         links:
           first: https://app.monicahq.com/api/activitytypecategories?page=1
           last: https://app.monicahq.com/api/activitytypecategories?page=1
@@ -383,8 +402,8 @@ components:
           name: For my friend Leslie Knope
           account:
             id: 1
-          created_at: 2021-07-21T16:30:37Z
-          updated_at: 2021-07-21T16:30:37Z
+          created_at: 2021-07-21T16:30:37.000+0000
+          updated_at: 2021-07-21T16:30:37.000+0000
     response_body_delete_examples:
       value:
         deleted: true
