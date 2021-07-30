@@ -377,53 +377,11 @@ components:
 #  headers:
 
   #--------------------------------------------------------------------------
-  parameters:
-    page:
-      name: page
-      in: query
-      description: "The page number being requested, defaults to 1"
-      required: false
-      style: form
-      explode: true
-      schema:
-        minimum: 1
-        type: integer
-        default: 1
-      example: 1
-
-    limit:
-      name: limit
-      in: query
-      description: "The number of entries per page, defaults to 10, maximum is 100"
-      required: false
-      style: form
-      explode: true
-      schema:
-        maximum: 100
-        minimum: 1
-        type: integer
-        default: 10
-      example: 50
-
-    activityTypeCategoryIDParameter:
-      name: ActivityTypeCategoryID
-      in: path
-      description: ActivityTypeCategory ID
-      required: true
-      style: simple
-      explode: false
-      schema:
-        minimum: 1
-        type: integer
-      example: 1
-
-  #--------------------------------------------------------------------------
   schemas:
     # 2021-07-21T17:32:28Z
     dateTime_object:
       type: string
       format: date-time
-      allowEmptyValue: true
 
 #    # 2021-07-21
 #    date:
@@ -450,34 +408,34 @@ components:
 #        - id
 
     account_object:
+      required:
+      - id
       type: object
       properties:
         - $ref: '#/components/schemas/id_object'
-      required:
-        - id
 
     baseActivity_schema:
       type: object
       properties:
         id:
           allOf:
-            - $ref: '#/components/schemas/id_object'
-            - readOnly: true
+          - $ref: '#/components/schemas/id_object'
+          - readOnly: true
         object:
           type: string
           readOnly: true
         account:
           allOf:
-            - $ref: '#/components/schemas/account_object'
-            - readOnly: true
+          - $ref: '#/components/schemas/account_object'
+          - readOnly: true
         created_at:
           allOf:
-            - $ref: '#/components/schemas/dateTime_object'
-            - readOnly: true
+          - $ref: '#/components/schemas/dateTime_object'
+          - readOnly: true
         updated_at:
           allOf:
-            - $ref: '#/components/schemas/dateTime_object'
-            - readOnly: true
+          - $ref: '#/components/schemas/dateTime_object'
+          - readOnly: true
 
     #------------------------------------------------------------------------
     # Activity Type
@@ -572,14 +530,14 @@ components:
 #        - name
 
     activityTypeCategories_object:
-      type: object
-      properties:
-        allOf:
-          - $ref: '#/components/schemas/baseActivity_schema'
-          - name:
-            type: string
       required:
-        - name
+      - name
+      allOf:
+      - $ref: '#/components/schemas/baseActivity_schema'
+      - type: object
+        properties:
+          name:
+            type: string
 
     response_body_ActivityTypeCategories_array:
       type: object
@@ -652,6 +610,47 @@ components:
         label:
           type: string
         url: {}
+
+  #--------------------------------------------------------------------------
+  parameters:
+    page:
+      name: page
+      in: query
+      description: "The page number being requested, defaults to 1"
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 1
+        type: integer
+        default: 1
+      example: 1
+
+    limit:
+      name: limit
+      in: query
+      description: "The number of entries per page, defaults to 10, maximum is 100"
+      required: false
+      style: form
+      explode: true
+      schema:
+        maximum: 100
+        minimum: 1
+        type: integer
+        default: 10
+      example: 50
+
+    activityTypeCategoryIDParameter:
+      name: ActivityTypeCategoryID
+      in: path
+      description: ActivityTypeCategory ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        minimum: 1
+        type: integer
+      example: 1
 
   #--------------------------------------------------------------------------
   examples:
