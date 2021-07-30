@@ -45,22 +45,22 @@ tags:
 #    description: Documentation for Activities
 #    url: 'https://www.monicahq.com/api/activities'
 
-#  - name: Activity types
-#    description: 'description goes here'
-#    externalDocs:
-#      description:  Documentation for Activity types
-#      url: 'https://www.monicahq.com/api/...'
+- name: Activity types
+  description: |-
+  externalDocs:
+    description:  Documentation for Activity types
+    url: 'https://www.monicahq.com/api/activitytypes'
 
-  - name: Activity Type Categories
-    description: |-
-      When adding an activity done with a contact, you can associate it with a
-      type of activity. This is useful to categorize your activities done with your
-      contacts.
+- name: Activity Type Categories
+  description: |-
+    When adding an activity done with a contact, you can associate it with a
+    type of activity. This is useful to categorize your activities done with your
+    contacts.
 
-      An activity type belongs to an activity type categories.
-    externalDocs:
-      description:  Documentation for Activity type categories
-      url: 'https://www.monicahq.com/api/activitytypecategories'
+    An activity type belongs to an activity type categories.
+  externalDocs:
+    description:  Documentation for Activity type categories
+    url: 'https://www.monicahq.com/api/activitytypecategories'
 
 #  - name: Addresses
 #    description: 'description goes here'
@@ -419,51 +419,165 @@ components:
 
   #--------------------------------------------------------------------------
   schemas:
-    idObject:
-      type: object
-      properties:
-        id:
-          minimum: 1
-          type: integer
-          readOnly: true
-
     # 2021-07-21T17:32:28Z
-    dateTime:
+    dateTime_object:
       type: string
       format: date-time
-      readOnly: true
+      allowEmptyValue: true
 
 #    # 2021-07-21
 #    date:
 #      type: string
 #      format: date
 
-#    request_body_ActivityTypeCategories:
+    id_object:
+      minimum: 1
+      type: integer
+      readOnly: true
+
+    object_object:
+      type: string
+      readOnly: true
+
+#    account_object:
 #      type: object
 #      properties:
+#        id:
+#          minimum: 1
+#          type: integer
+#          readOnly: true
+#      required:
+#        - id
+
+    account_object:
+      type: object
+      properties:
+        - $ref: '#/components/schemas/id_object'
+      required:
+        - id
+
+    baseActivity_schema:
+      type: object
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/id_object'
+            - readOnly: true
+        object:
+          type: string
+          readOnly: true
+        account:
+          allOf:
+            - $ref: '#/components/schemas/account_object'
+            - readOnly: true
+        created_at:
+          allOf:
+            - $ref: '#/components/schemas/dateTime_object'
+            - readOnly: true
+        updated_at:
+          allOf:
+            - $ref: '#/components/schemas/dateTime_object'
+            - readOnly: true
+
+    #------------------------------------------------------------------------
+    # Activity Type
+
+#{
+#  "data": {
+#    "id": 1,
+#    "object": "activityType",
+#    "name": "společný čas",
+#    "location_type": null,
+#    "activity_type_category": {
+#      "id": 1,
+#      "object": "activityTypeCategory",
+#      "name": "Simple activities",
+#      "account": {
+#        "id": 1
+#      },
+#      "created_at": null,
+#      "updated_at": null
+#    },
+#    "account": {
+#      "id": 1
+#    },
+#    "created_at": null,
+#    "updated_at": null
+#  }
+#}
+
+#    activityType_object:
+#      type: object
+#      properties:
+#        allOf:
+#          - $ref: '#/components/schemas/id_object'
+#          - $ref: '#/components/schemas/object_object'
+#        account:
+#          $ref: '#/components/schemas/account_object'
+#        updated_at:
+#          allOf:
+#            - $ref: '#/components/schemas/dateTime_object'
+#            - readOnly: true
+#        created_at:
+#          allOf:
+#            - $ref: '#/components/schemas/dateTime_object'
+#            - readOnly: true
+#      required:
+#        - name
+#
+#    response_body_ActivityType_array:
+#      type: object
+#      properties:
+#        data:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/activityType_object'
+#        meta:
+#          $ref: '#/components/schemas/meta'
+#        links:
+#          $ref: '#/components/schemas/links'
+#
+#    response_body_ActivityType:
+#      type: object
+#      properties:
+#        data:
+#          $ref: '#/components/schemas/activityType_object'
+
+    #------------------------------------------------------------------------
+    # Activity Type Categories
+
+#    activityTypeCategories_object:
+#      type: object
+#      properties:
+#        id:
+#          minimum: 1
+#          type: integer
+#          readOnly: true
+#        object:
+#          type: string
+#          readOnly: true
 #        name:
 #          type: string
+#        account:
+#          $ref: '#/components/schemas/account_object'
+#        updated_at:
+#          allOf:
+#            - $ref: '#/components/schemas/dateTime_object'
+#            - readOnly: true
+#        created_at:
+#          allOf:
+#            - $ref: '#/components/schemas/dateTime_object'
+#            - readOnly: true
 #      required:
 #        - name
 
     activityTypeCategories_object:
       type: object
       properties:
-        id:
-          minimum: 1
-          type: integer
-          readOnly: true
-        object:
-          type: string
-          readOnly: true
-        name:
-          type: string
-        account:
-          $ref: '#/components/schemas/idObject'
-        updated_at:
-          $ref: '#/components/schemas/dateTime'
-        created_at:
-          $ref: '#/components/schemas/dateTime'
+        allOf:
+          - $ref: '#/components/schemas/baseActivity_schema'
+          - name:
+            type: string
       required:
         - name
 
